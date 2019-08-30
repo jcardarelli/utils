@@ -1,0 +1,22 @@
+#!/bin/bash
+# cron-chrome
+# Description: General script to open webpages via cron
+# Thu Sep 20 11:04:35 PDT 2018
+# jcardarelli
+
+INPUT_WEBPAGE="$1"
+INPUT_MSG="$2"
+
+error() {
+	local timeformat='%Y-%m-%dT%H:%M:%S%z'
+  echo "[$(date +${timeformat})] [ERROR]: $@" >&2
+}
+
+export DISPLAY=":0.0"
+google-chrome --new-window "$INPUT_WEBPAGE"
+
+if [[ "$?" -eq 0 ]]; then
+	notify-send "$INPUT_MSG"
+else
+	error "Failed to open google-chrome"
+fi
