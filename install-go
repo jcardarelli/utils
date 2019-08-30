@@ -1,0 +1,37 @@
+#!/bin/bash
+# install-go
+# Description:
+# Tue Feb 19 17:08:03 PST 2019
+
+GO_ROOT="/usr/local"
+GO_DIR="$GO_ROOT/go"
+GO_VERSION="1.11.5"
+OS="linux"
+ARCH="amd64"
+GO_TAR="go${GO_VERSION}.${OS}-${ARCH}.tar.gz"
+
+error() {
+	local timeformat='%Y-%m-%dT%H:%M:%S%z'
+  echo "[$(date +${timeformat})] [ERROR]: $@" >&2
+	exit 1
+}
+
+if [[ -d $GO_DIR ]]; then
+	error "Go dir exists"
+else
+	echo "Go dir does not exist at ${GO_DIR}, extracting Golang binary..."
+	mkdir -p $GO_DIR
+	
+	# Extract go binary to directory
+	if [[ ! -f $GO_TAR ]]; then
+		wget https://dl.google.com/go/go${GO_VERSION}.${OS}-${ARCH}.tar.gz
+	else
+		echo "Go tar file already exists at ${GO_TAR}, continuing..."
+	fi
+
+	tar -C $GO_DIR -xzf $GO_TAR
+
+	#if [[ -f $GO_DIR/go/ ]]; then
+
+	#fi
+fi
