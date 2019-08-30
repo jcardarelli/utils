@@ -1,0 +1,7 @@
+#!/bin/bash
+# notify
+# Description: Send notifications via the system notifier
+# Wed Jan 23 15:23:10 PST 2019
+
+export DISPLAY=":0.0"
+/usr/bin/notify-send "$1"
