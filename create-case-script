@@ -1,0 +1,57 @@
+#!/bin/bash
+# create-case-script
+# Description: Create a new script with a case statement
+# Wed Jun  5 17:27:40 PDT 2019
+
+FILEPATH="$1"
+
+error() {
+	local timeformat='%Y-%m-%dT%H:%M:%S%z'
+  echo "[$(date +${timeformat})] [ERROR]: $@" >&2
+  exit 1
+}
+
+write_script() {
+cat << EOF > $FILEPATH
+#!/bin/bash
+# $(basename ${FILEPATH})
+# Description:
+# $(date)
+# $(echo ${USER}@)
+
+INPUT="\$1"
+
+error() {
+	local timeformat='%Y-%m-%dT%H:%M:%S%z'
+  echo "[\$(date +\${timeformat})] [ERROR]: \$@" >&2
+  exit 1
+}
+
+case \$INPUT in
+	match1)
+		echo "This is match1"
+	;;
+
+	match2)
+		echo "This is match2"
+	;;
+
+	*)
+		echo "This is the wildcard"
+	;;
+esac
+
+if [[ \$? -ne 0 ]]; then
+  error "thing failed"
+fi
+
+EOF
+}
+
+if [[ -f "$FILEPATH" ]]; then
+  error "The script $FILEPATH already exists."
+else
+  write_script
+  chmod +x $FILEPATH
+fi
+
