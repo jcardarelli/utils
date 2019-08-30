@@ -7,7 +7,7 @@ MENU_TITLE="${USER}'s cases"
 FILE="/home/jcardarelli/case_tracker.yaml"
 
 error() {
-	local timeformat='%Y-%m-%dT%H:%M:%S%z'
+  local timeformat='%Y-%m-%dT%H:%M:%S%z'
   echo "[$(date +${timeformat})] [ERROR]: $@" >&2
   exit 1
 }
@@ -15,8 +15,8 @@ error() {
 ar=()
 num=1
 while read n s ; do
-		((num + 1))
-    ar+=($num $n "$s")
+  ((num + 1))
+  ar+=($num $n "$s")
 done < $FILE
 dialog  --menu "$MENU_TITLE "  20 50 30 "${ar[@]}"
 
