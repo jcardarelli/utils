@@ -1,0 +1,17 @@
+#!/bin/bash
+# tmux-send
+# Description: Test script to send keystrokes to a tmux pane
+# Wed Aug 29 12:01:31 PDT 2018
+
+TMUX_SESSION="$(tmux display-message -p '#S')"
+TMUX_WINDOW="$(tmux display-message -p '#W')"
+
+# Get current pane number if not specified
+if [[ $# -ne 0 ]]; then
+	TMUX_PANE="$1"
+fi
+
+TARGET="${TMUX_SESSION}:${TMUX_WINDOW}.${TMUX_PANE}"
+
+echo "target is: $TARGET"
+tmux send-keys -t "$TARGET" C-b 'c' Enter
