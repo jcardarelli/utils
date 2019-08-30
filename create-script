@@ -1,0 +1,41 @@
+#!/bin/bash
+# create-script
+# Create a new bash script if the file doesn't exist in $HOME/bin
+
+FILEPATH="$1"
+
+error() {
+  echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')] [ERROR]: $@" >&2
+  exit 1
+}
+
+write_script() {
+cat << EOF > $FILEPATH
+#!/bin/bash
+# $(basename ${FILEPATH})
+# Description:
+# Prerequisites: N/A
+# $(date)
+# User: $(echo ${USER})
+
+error() {
+	local timeformat='%Y-%m-%dT%H:%M:%S%z'
+  echo "[\$(date +\${timeformat})] [ERROR]: \$@" >&2
+  exit 1
+}
+
+# do a thing
+if [[ \$? -ne 0 ]]; then
+  error "thing failed"
+fi
+
+EOF
+}
+
+if [[ -f "$FILEPATH" ]]; then
+  error "The script $FILEPATH already exists."
+else
+  write_script
+  chmod +x $FILEPATH
+	vim $FILEPATH
+fi
