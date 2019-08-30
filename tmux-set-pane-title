@@ -1,0 +1,18 @@
+#!/bin/bash
+# tmux-set-pane-title
+# Description: Set the title of the current tmux pane
+# Wed Aug 29 12:35:22 PDT 2018
+
+TITLE="$1"
+
+error() {
+	local timeformat='%Y-%m-%dT%H:%M:%S%z'
+  echo "[$(date +${timeformat})] [ERROR]: $@" >&2
+}
+
+if [[ $# -eq 0 ]]; then
+	error "Please specify your desired pane title as the first argument"
+else
+	printf '\033]2;%s\033\\' "$1"
+fi
+
